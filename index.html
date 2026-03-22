@@ -569,14 +569,11 @@ footer p { font-size:13px; color:var(--text-soft); }
       instant translation read back to you out loud, saved to your notes. All hands-free.
     </p>
 
-    <div class="beehiiv-wrap">
-      <iframe src="https://subscribe-forms.beehiiv.com/40202fa7-e679-49ac-adc1-a893262993aa"
-        class="beehiiv-embed"
-        data-test-id="beehiiv-embed"
-        frameborder="0" scrolling="no"
-        style="width:100%;max-width:460px;height:80px;border-radius:100px;background:transparent;box-shadow:none;">
-      </iframe>
-    </div>
+    <div class="pill-form" id="hform">
+  <input type="email" id="hemail" placeholder="your@email.com"/>
+  <button onclick="hsub()">Join Waitlist →</button>
+</div>
+<div class="succ-hero" id="hsucc"><span>🌟</span> You're in! We'll reach out when Spire launches.</div>
 
     <p class="hint">No spam. Just a heads-up when we launch. 🤝</p>
     <div class="social-proof">
@@ -768,14 +765,11 @@ footer p { font-size:13px; color:var(--text-soft); }
   <div class="cta reveal">
     <h2>Turn every commute<br>into a <em>win.</em></h2>
     <p>Join the waitlist. Be first when Spire drops.</p>
-    <div class="beehiiv-wrap">
-      <iframe src="https://subscribe-forms.beehiiv.com/40202fa7-e679-49ac-adc1-a893262993aa"
-        class="beehiiv-embed"
-        data-test-id="beehiiv-embed"
-        frameborder="0" scrolling="no"
-        style="width:100%;max-width:460px;height:80px;border-radius:16px;background:transparent;box-shadow:none;">
-      </iframe>
-    </div>
+    <div class="cta-row" id="bform">
+  <input type="email" id="bemail" placeholder="your@email.com"/>
+  <button onclick="bsub()">Get Early Access →</button>
+</div>
+<div class="cta-succ" id="bsucc"><span>🔥</span> You're on the list — talk soon!</div>
   </div>
 
   <footer>
@@ -801,17 +795,38 @@ const ro = new IntersectionObserver(entries=>{
 },{threshold:0.1});
 document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
 
-function hsub(){
-  const v=document.getElementById('hemail').value;
-  if(!v||!v.includes('@'))return;
-  document.getElementById('hform').style.display='none';
-  document.getElementById('hsucc').style.display='flex';
+async function hsub() {
+  const email = document.getElementById('hemail').value;
+  if (!email || !email.includes('@')) return;
+
+  await fetch('https://api.beehiiv.com/v2/publications/12854847-f045-4316-b443-1a87927242a4/subscriptions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer HZpHVzGProgvzwoTGdlvBztkiotdsbgQqxUv2zEFoBTrWb3i4I1zhnjhsINWOxwx'
+    },
+    body: JSON.stringify({ email: email, reactivate_existing: true, send_welcome_email: true })
+  });
+
+  document.getElementById('hform').style.display = 'none';
+  document.getElementById('hsucc').style.display = 'flex';
 }
-function bsub(){
-  const v=document.getElementById('bemail').value;
-  if(!v||!v.includes('@'))return;
-  document.getElementById('bform').style.display='none';
-  document.getElementById('bsucc').style.display='flex';
+
+async function bsub() {
+  const email = document.getElementById('bemail').value;
+  if (!email || !email.includes('@')) return;
+
+  await fetch('https://api.beehiiv.com/v2/publications/12854847-f045-4316-b443-1a87927242a4/subscriptions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer HZpHVzGProgvzwoTGdlvBztkiotdsbgQqxUv2zEFoBTrWb3i4I1zhnjhsINWOxwx'
+    },
+    body: JSON.stringify({ email: email, reactivate_existing: true, send_welcome_email: true })
+  });
+
+  document.getElementById('bform').style.display = 'none';
+  document.getElementById('bsucc').style.display = 'flex';
 }
 
 function toggleFaq(btn) {
