@@ -795,30 +795,17 @@ const ro = new IntersectionObserver(entries=>{
 },{threshold:0.1});
 document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
 
-async function submitEmail(email, formId, succId) {
+function submitEmail(email) {
   if (!email || !email.includes('@')) return;
-  const btn = document.querySelector('#' + formId + ' button');
-  if (btn) { btn.textContent = 'Joining...'; btn.disabled = true; }
-  try {
-    await fetch('https://api.beehiiv.com/v2/publications/12854847-f045-4316-b443-1a87927242a4/subscriptions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer HZpHVzGProgvzwoTGdlvBztkiotdsbgQqxUv2zEFoBTrWb3i4I1zhnjhsINWOxwx'
-      },
-      body: JSON.stringify({ email: email, reactivate_existing: true, send_welcome_email: true })
-    });
-  } catch(e) { console.log(e); }
-  document.getElementById(formId).style.display = 'none';
-  document.getElementById(succId).style.display = 'flex';
+  window.open('https://spireforyou.beehiiv.com/subscribe?email=' + encodeURIComponent(email), '_blank');
 }
 function hsub() {
   const email = document.getElementById('hemail').value;
-  submitEmail(email, 'hform', 'hsucc');
+  submitEmail(email);
 }
 function bsub() {
   const email = document.getElementById('bemail').value;
-  submitEmail(email, 'bform', 'bsucc');
+  submitEmail(email);
 }
 
 function toggleFaq(btn) {
