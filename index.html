@@ -534,6 +534,7 @@ footer p { font-size:13px; color:var(--text-soft); }
   .pill-form button { width:100%; border-radius:12px; }
 }
 </style>
+<script async src="https://tally.so/widgets/embed.js"></script>
 </head>
 <body>
 
@@ -574,7 +575,6 @@ footer p { font-size:13px; color:var(--text-soft); }
       <input type="email" id="hemail" placeholder="your@email.com"/>
       <button onclick="hsub()">Join Waitlist →</button>
     </div>
-    <div class="succ-hero" id="hsucc"><span>🌟</span> You are in! We will reach out when Spire launches.</div>
     <p class="hint">No spam. Just a heads-up when we launch. 🤝</p>
     <div class="social-proof">
       <div class="sp-avatars">
@@ -769,7 +769,6 @@ footer p { font-size:13px; color:var(--text-soft); }
       <input type="email" id="bemail" placeholder="your@email.com"/>
       <button onclick="bsub()">Get Early Access →</button>
     </div>
-    <div class="cta-succ" id="bsucc"><span>🔥</span> You are on the list — talk soon!</div>
   </div>
 
   <footer>
@@ -795,17 +794,24 @@ const ro = new IntersectionObserver(entries=>{
 },{threshold:0.1});
 document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
 
-function submitEmail(email) {
+function openTally(email) {
   if (!email || !email.includes('@')) return;
-  window.open('https://spireforyou.beehiiv.com/subscribe?email=' + encodeURIComponent(email), '_blank');
+  Tally.openPopup('RGLpY4', {
+    layout: 'modal',
+    width: 480,
+    hiddenFields: { email: email },
+    onSubmit: function() {
+      console.log('Submitted!');
+    }
+  });
 }
 function hsub() {
   const email = document.getElementById('hemail').value;
-  submitEmail(email);
+  openTally(email);
 }
 function bsub() {
   const email = document.getElementById('bemail').value;
-  submitEmail(email);
+  openTally(email);
 }
 
 function toggleFaq(btn) {
